@@ -23,8 +23,6 @@ sequenceDiagram
     server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
     deactivate server
 
-    Note right of browser: The browser executes the callback function that renders the notes
-
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server
     Note left of server: The server creates a new note object, and adds it to an array called notes
