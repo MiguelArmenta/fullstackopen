@@ -1,6 +1,6 @@
 const PersonForm = (props) => {
     return <div>
-        <form onSubmit={props.addPerson}>
+        <form onSubmit={props.handleSubmit}>
         <div>
           name: <input value={props.name} onChange={props.handleNameChange} />
         </div>
