@@ -3,6 +3,10 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import personService from './services/persons'
+import Notification from './components/Notification'
+import './index.css'
+
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,6 +14,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState('')
+  const [className, setClassName] = useState('')
 
   useEffect(() => {
     personService
@@ -32,6 +38,23 @@ const App = () => {
           setPersons(persons.map(person=>person.id !== changedPerson.id ? person : returnedPerson))
           setNewName('')
           setNewNumber('')
+          setMessage(
+            `Number changed ${returnedPerson.name}`
+          )
+          setClassName('message')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
+        .catch(()=>{
+          setMessage(
+            `Information of ${person.name} has already been removed from server`
+          )
+          setClassName('error')
+          setPersons(persons.filter(p=>p.id !== person.id))
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
         
       }
@@ -48,6 +71,13 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+        setMessage(
+          `Added ${returnedPerson.name}`
+        )
+        setClassName('message')
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
       
     }
@@ -85,6 +115,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message} className={className}/>
 
       <Filter value={filter} handleFilterChange={(event) => handleFilterChange(event)} />
 
